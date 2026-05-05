@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Временный персонал</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f9fafb;
+            min-height: 100vh;
+            padding: 32px 16px;
+        }
+        .container { max-width: 512px; margin: 0 auto; }
+        
+        /* Управление экранами */
+        .screen { animation: fadeIn 0.4s ease; }
+        .screen.hidden-screen { display: none; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-card {
+            background: white; border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1); padding: 24px;
+        }
+
+        /* --- ЭКРАН 1: ЛЕНДИНГ --- */
+        .landing-header { 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            margin-bottom: 24px; 
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+            border-radius: 12px;
+        }
+        .header-icon { width: 72px; height: 72px; }
+        
+        .landing-title { font-size: 26px; font-weight: 800; color: #111827; line-height: 1.2; margin-bottom: 12px; }
+        .landing-desc { font-size: 15px; color: #6b7280; line-height: 1.5; margin-bottom: 24px; }
+        
+        .steps { display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px; }
+        .step { display: flex; align-items: flex-start; gap: 12px; }
+        .step-num {
+            width: 28px; height: 28px; background: #f5f3ff; color: #7c3aed;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 14px; flex-shrink: 0;
+        }
+        .step-text { font-size: 15px; color: #374151; line-height: 1.5; font-weight: 500; }
+        
+        .pricing { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+        .price-card {
+            background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px;
+            padding: 16px; display: flex; justify-content: space-between; align-items: center;
+        }
+        .price-role { font-size: 15px; color: #4b5563; }
+        .price-value { font-size: 16px; font-weight: 700; color: #111827; }
+        
+        .cta-button {
+            width: 100%; background: #7c3aed; color: white; border: none; padding: 18px;
+            border-radius: 14px; font-size: 17px; font-weight: 600; cursor: pointer;
+            transition: all 0.2s; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+        }
+        .cta-button:hover { background: #6d28d9; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(124, 58, 237, 0.4); }
+        .cta-button:active { transform: translateY(0); }
+
+        /* --- ЭКРАН 2: ФОРМА --- */
+        .header { margin-bottom: 24px; display: flex; align-items: center; }
+        .back-button {
+            background: none; border: none; color: #4b5563; cursor: pointer;
+            padding: 0; display: flex; align-items: center; margin-right: 12px;
+        }
+        .back-button:hover { color: #111827; }
+        .back-button svg { width: 24px; height: 24px; }
+        .title { font-size: 24px; font-weight: 700; color: #111827; margin-bottom: 4px; }
+        .subtitle { font-size: 14px; color: #6b7280; }
+        
+        .form-group {
+            margin-bottom: 16px; opacity: 1; transform: translateY(0);
+            transition: opacity 0.3s ease, transform 0.3s ease, max-height 0.3s ease;
+        }
+        .form-group.hidden {
+            display: none; opacity: 0; transform: translateY(-10px);
+            max-height: 0; overflow: hidden; margin: 0; padding: 0;
+        }
+        label { display: block; font-size: 14px; font-weight: 500; color: #374151; margin-bottom: 4px; }
+        input, select, textarea {
+            width: 100%; padding: 12px 16px; border: 1px solid #d1d5db; border-radius: 8px;
+            font-size: 16px; outline: none; transition: all 0.2s; font-family: inherit; background: #fff;
+        }
+        input[type="text"]:focus, input[type="date"]:focus, input[type="time"]:focus, 
+        input[type="number"]:focus, input[type="tel"]:focus, select:focus, textarea:focus {
+            border-color: #7c3aed; box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+        }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        textarea { resize: none; }
+        .checkbox-wrapper { display: flex; align-items: flex-start; margin-bottom: 16px; }
+        .checkbox-wrapper input[type="checkbox"] {
+            width: 16px; height: 16px; margin-top: 2px; margin-right: 8px;
+            accent-color: #7c3aed; cursor: pointer;
+        }
+        .checkbox-label { font-size: 14px; color: #4b5563; line-height: 1.5; }
+        .checkbox-label a { color: #7c3aed; text-decoration: underline; cursor: pointer; }
+        .checkbox-label a:hover { color: #6d28d9; }
+        .cost-block {
+            background: #f9fafb; border-radius: 8px; padding: 16px;
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;
+        }
+        .cost-label { color: #4b5563; font-size: 16px; }
+        .cost-value { font-size: 18px; font-weight: 700; color: #111827; }
+        .submit-button {
+            width: 100%; background: #7c3aed; color: white; border: none; padding: 16px;
+            border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer;
+            transition: all 0.2s; box-shadow: 0 4px 6px rgba(124, 58, 237, 0.2);
+        }
+        .submit-button:hover { background: #6d28d9; box-shadow: 0 6px 12px rgba(124, 58, 237, 0.3); transform: translateY(-1px); }
+        .submit-button:active { transform: translateY(0); }
+        optgroup { font-weight: 600; color: #111827; }
+
+        /* --- ЭКРАН 3: УСПЕХ --- */
+        .success-screen { text-align: center; }
+        .success-icon {
+            width: 80px; height: 80px; background: #22c55e; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 24px; box-shadow: 0 8px 24px rgba(34, 197, 94, 0.3);
+        }
+        .success-icon svg { width: 40px; height: 40px; color: white; }
+        .success-title { font-size: 24px; font-weight: 700; color: #111827; margin-bottom: 12px; }
+        .success-text { font-size: 16px; color: #6b7280; line-height: 1.6; margin-bottom: 24px; }
+        .success-info-block {
+            background: #f5f3ff; border-radius: 12px; padding: 20px;
+            margin-bottom: 24px; text-align: left;
+        }
+        .info-row {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            padding: 8px 0; border-bottom: 1px solid rgba(124, 58, 237, 0.1);
+        }
+        .info-row:last-child { border-bottom: none; }
+        .info-label { font-size: 14px; color: #6b7280; font-weight: 500; }
+        .info-value { font-size: 14px; color: #111827; font-weight: 600; text-align: right; max-width: 60%; word-break: break-word; }
+        .success-next {
+            font-size: 15px; color: #374151; line-height: 1.6; margin-bottom: 24px;
+            padding: 16px; background: #f9fafb; border-radius: 8px;
+        }
+        .success-next strong { color: #111827; }
+
+        @media (max-width: 640px) {
+            body { padding: 16px 12px; }
+            .form-card { padding: 20px; }
+            .grid-2 { grid-template-columns: 1fr; gap: 12px; }
+            .info-value { max-width: 50%; }
+            .landing-title { font-size: 22px; }
+            .header-icon { width: 64px; height: 64px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <!-- ЭКРАН 1: Лендинг -->
+        <div id="landingScreen" class="screen">
+            <div class="form-card">
+                <div class="landing-header">
+                    <svg class="header-icon" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="72" height="72" rx="12" fill="#7c3aed" opacity="0.1"/>
+                        <rect x="18" y="14" width="36" height="44" rx="4" fill="white" stroke="#7c3aed" stroke-width="2"/>
+                        <line x1="18" y1="22" x2="54" y2="22" stroke="#7c3aed" stroke-width="2"/>
+                        <line x1="24" y1="30" x2="30" y2="30" stroke="#7c3aed" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="24" y1="36" x2="30" y2="36" stroke="#7c3aed" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="24" y1="42" x2="30" y2="42" stroke="#7c3aed" stroke-width="2" stroke-linecap="round"/>
+                        <circle cx="48" cy="32" r="5" fill="#7c3aed"/>
+                        <path d="M48 38 L48 48" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round"/>
+                        <path d="M48 42 L43 46" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round"/>
+                        <path d="M48 42 L53 46" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round"/>
+                        <rect x="38" y="50" width="14" height="10" rx="1.5" fill="#7c3aed" opacity="0.3"/>
+                        <path d="M38 53 L45 56 L52 53" stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+
+                <h1 class="landing-title">Временный персонал —<br>просто как вызвать такси</h1>
+                <p class="landing-desc">Грузчики и работники торгового зала для разовых задач и пиков. Без поиска в чатах и оплаты налом.</p>
+
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-num">1</div>
+                        <div class="step-text">Оставьте заявку — адрес, дата, сколько людей</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">2</div>
+                        <div class="step-text">Мы найдём бригаду — подтвердим состав за 2 часа</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">3</div>
+                        <div class="step-text">Оплата с расчёта — закрывающие документы сформируем автоматически</div>
+                    </div>
+                </div>
+
+                <div class="pricing">
+                    <div class="price-card">
+                        <span class="price-role">Грузчик</span>
+                        <span class="price-value">от 280 ₽/час</span>
+                    </div>
+                    <div class="price-card">
+                        <span class="price-role">Работник торгового зала</span>
+                        <span class="price-value">от 250 ₽/час</span>
+                    </div>
+                    <div class="price-card">
+                        <span class="price-role">Сборщик заказов</span>
+                        <span class="price-value">от 250 ₽/час</span>
+                    </div>
+                </div>
+
+                <button class="cta-button" onclick="showForm()">Оставить заявку</button>
+            </div>
+        </div>
+
+        <!-- ЭКРАН 2: Форма заявки -->
+        <div id="formScreen" class="screen hidden-screen">
+            <div class="form-card">
+                <div class="header">
+                    <button class="back-button" onclick="goBack()">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                    </button>
+                    <div>
+                        <h1 class="title">Новая заявка</h1>
+                        <p class="subtitle">Заполнение займёт 1 минуту</p>
+                    </div>
+                </div>
+
+                <form id="requestForm" onsubmit="handleSubmit(event)">
+                    <div class="form-group">
+                        <label for="city">Город</label>
+                        <select id="city" name="city" required onchange="handleCityChange()">
+                            <option value="" disabled selected>Выберите город</option>
+                            <optgroup label="Москва и Санкт-Петербург">
+                                <option value="Москва">Москва</option>
+                                <option value="Санкт-Петербург">Санкт-Петербург</option>
+                            </optgroup>
+                            <optgroup label="Московская область">
+                                <option value="Балашиха">Балашиха</option><option value="Химки">Химки</option>
+                                <option value="Королёв">Королёв</option><option value="Мытищи">Мытищи</option>
+                                <option value="Люберцы">Люберцы</option><option value="Подольск">Подольск</option>
+                                <option value="Красногорск">Красногорск</option><option value="Одинцово">Одинцово</option>
+                                <option value="Электросталь">Электросталь</option><option value="Коломна">Коломна</option>
+                                <option value="Щёлково">Щёлково</option><option value="Серпухов">Серпухов</option>
+                                <option value="Орехово-Зуево">Орехово-Зуево</option><option value="Ногинск">Ногинск</option>
+                                <option value="Жуковский">Жуковский</option><option value="Пушкино">Пушкино</option>
+                                <option value="Домодедово">Домодедово</option><option value="Раменское">Раменское</option>
+                                <option value="Реутов">Реутов</option><option value="Долгопрудный">Долгопрудный</option>
+                                <option value="Клин">Клин</option><option value="Дубна">Дубна</option>
+                                <option value="Лобня">Лобня</option><option value="Ивантеевка">Ивантеевка</option>
+                                <option value="Фрязино">Фрязино</option><option value="Протвино">Протвино</option>
+                                <option value="Пущино">Пущино</option><option value="Черноголовка">Черноголовка</option>
+                                <option value="Дзержинский">Дзержинский</option><option value="Котельники">Котельники</option>
+                                <option value="Видное">Видное</option><option value="Краснознаменск">Краснознаменск</option>
+                                <option value="Лыткарино">Лыткарино</option><option value="Рошаль">Рошаль</option>
+                                <option value="Электроугли">Электроугли</option><option value="Юбилейный">Юбилейный</option>
+                                <option value="Лосино-Петровский">Лосино-Петровский</option><option value="Старая Купавна">Старая Купавна</option>
+                                <option value="Верея">Верея</option><option value="Руза">Руза</option>
+                                <option value="Можайск">Можайск</option><option value="Волоколамск">Волоколамск</option>
+                                <option value="Шаховская">Шаховская</option><option value="Талдом">Талдом</option>
+                                <option value="Дмитров">Дмитров</option><option value="Яхрома">Яхрома</option>
+                                <option value="Красная Поляна">Красная Поляна</option><option value="Солнечногорск">Солнечногорск</option>
+                                <option value="Зеленоград">Зеленоград</option><option value="Троицк">Троицк</option>
+                                <option value="Щербинка">Щербинка</option><option value="Московский">Московский</option>
+                                <option value="Коммунарка">Коммунарка</option><option value="Внуково">Внуково</option>
+                                <option value="Кокошкино">Кокошкино</option>
+                            </optgroup>
+                            <optgroup label="Ленинградская область">
+                                <option value="Гатчина">Гатчина</option><option value="Всеволожск">Всеволожск</option>
+                                <option value="Тихвин">Тихвин</option><option value="Сосновый Бор">Сосновый Бор</option>
+                                <option value="Кириши">Кириши</option><option value="Выборг">Выборг</option>
+                                <option value="Тосно">Тосно</option><option value="Волхов">Волхов</option>
+                                <option value="Кингисепп">Кингисепп</option><option value="Сланцы">Сланцы</option>
+                                <option value="Новая Ладога">Новая Ладога</option><option value="Коммунар">Коммунар</option>
+                                <option value="Сертолово">Сертолово</option><option value="Мурино">Мурино</option>
+                                <option value="Кудрово">Кудрово</option><option value="Бокситогорск">Бокситогорск</option>
+                                <option value="Каменногорск">Каменногорск</option><option value="Высоцк">Высоцк</option>
+                                <option value="Любань">Любань</option><option value="Кировск">Кировск</option>
+                                <option value="Шлиссельбург">Шлиссельбург</option><option value="Приозерск">Приозерск</option>
+                                <option value="Светогорск">Светогорск</option><option value="Подпорожье">Подпорожье</option>
+                                <option value="Лодейное Поле">Лодейное Поле</option><option value="Волосово">Волосово</option>
+                                <option value="Луга">Луга</option><option value="Сясьстрой">Сясьстрой</option>
+                                <option value="Ивангород">Ивангород</option>
+                            </optgroup>
+                            <optgroup label="Другие регионы РФ">
+                                <option value="Новосибирск">Новосибирск</option><option value="Екатеринбург">Екатеринбург</option>
+                                <option value="Казань">Казань</option><option value="Нижний Новгород">Нижний Новгород</option>
+                                <option value="Челябинск">Челябинск</option><option value="Омск">Омск</option>
+                                <option value="Самара">Самара</option><option value="Ростов-на-Дону">Ростов-на-Дону</option>
+                                <option value="Уфа">Уфа</option><option value="Красноярск">Красноярск</option>
+                                <option value="Воронеж">Воронеж</option><option value="Пермь">Пермь</option>
+                                <option value="Волгоград">Волгоград</option><option value="Краснодар">Краснодар</option>
+                                <option value="Саратов">Саратов</option><option value="Тюмень">Тюмень</option>
+                                <option value="Тольятти">Тольятти</option><option value="Ижевск">Ижевск</option>
+                                <option value="Барнаул">Барнаул</option><option value="Ульяновск">Ульяновск</option>
+                                <option value="Иркутск">Иркутск</option><option value="Хабаровск">Хабаровск</option>
+                                <option value="Ярославль">Ярославль</option><option value="Владивосток">Владивосток</option>
+                                <option value="Махачкала">Махачкала</option><option value="Томск">Томск</option>
+                                <option value="Оренбург">Оренбург</option><option value="Кемерово">Кемерово</option>
+                                <option value="Новокузнецк">Новокузнецк</option><option value="Рязань">Рязань</option>
+                                <option value="Астрахань">Астрахань</option><option value="Пенза">Пенза</option>
+                                <option value="Липецк">Липецк</option><option value="Киров">Киров</option>
+                                <option value="Чебоксары">Чебоксары</option><option value="Тула">Тула</option>
+                                <option value="Калининград">Калининград</option><option value="Курск">Курск</option>
+                                <option value="Севастополь">Севастополь</option><option value="Сочи">Сочи</option>
+                                <option value="Ставрополь">Ставрополь</option><option value="Белгород">Белгород</option>
+                                <option value="Владимир">Владимир</option><option value="Архангельск">Архангельск</option>
+                                <option value="Мурманск">Мурманск</option><option value="Сургут">Сургут</option>
+                                <option value="Вологда">Вологда</option><option value="Саранск">Саранск</option>
+                                <option value="Смоленск">Смоленск</option><option value="Курган">Курган</option>
+                                <option value="Чита">Чита</option><option value="Орёл">Орёл</option>
+                                <option value="Якутск">Якутск</option><option value="Петрозаводск">Петрозаводск</option>
+                                <option value="Грозный">Грозный</option><option value="Йошкар-Ола">Йошкар-Ола</option>
+                                <option value="Тамбов">Тамбов</option><option value="Нижневартовск">Нижневартовск</option>
+                                <option value="Новороссийск">Новороссийск</option><option value="Брянск">Брянск</option>
+                                <option value="Иваново">Иваново</option><option value="Стерлитамак">Стерлитамак</option>
+                                <option value="Калуга">Калуга</option><option value="Нижнекамск">Нижнекамск</option>
+                                <option value="Ангарск">Ангарск</option>
+                            </optgroup>
+                        </select>
+                    </div>
+
+                    <div class="form-group hidden" id="positionGroup">
+                        <label for="position">Должность</label>
+                        <select id="position" name="position" required onchange="calculateCost()">
+                            <option value="" disabled selected>Выберите должность</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Адрес</label>
+                        <input type="text" id="address" name="address" placeholder="Введите адрес" required>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group"><label for="date">Дата</label><input type="date" id="date" name="date" required></div>
+                        <div class="form-group"><label for="time">Время начала</label><input type="time" id="time" name="time" required></div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group"><label for="hours">Часов</label><input type="number" id="hours" name="hours" min="1" required onchange="calculateCost()"></div>
+                        <div class="form-group"><label for="workers">Исполнителей</label><input type="number" id="workers" name="workers" min="1" required onchange="calculateCost()"></div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="fullname">ФИО</label>
+                            <input type="text" id="fullname" name="fullname" placeholder="Иванов Иван Иванович" autocomplete="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Номер телефона</label>
+                            <input type="tel" id="phone" name="phone" placeholder="+7 (999) 123-45-67" inputmode="tel" autocomplete="tel" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="comment">Комментарий (куда подойти, пропуск)</label>
+                        <textarea id="comment" name="comment" rows="3" placeholder="Введите комментарий..."></textarea>
+                    </div>
+
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" id="agree" name="agree">
+                        <label for="agree" class="checkbox-label">
+                            Соглашаюсь с <a href="#" onclick="showTerms()">условиями оказания услуги</a> и оплатой с счёта
+                        </label>
+                    </div>
+
+                    <div class="cost-block">
+                        <span class="cost-label">Стоимость по тарифу</span>
+                        <span class="cost-value" id="costValue">≈ 0 ₽</span>
+                    </div>
+
+                    <button type="submit" class="submit-button">Отправить заявку</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- ЭКРАН 3: Заявка принята -->
+        <div id="successScreen" class="screen hidden-screen success-screen">
+            <div class="form-card">
+                <div class="success-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+
+                <h1 class="success-title">Заявка принята</h1>
+                <p class="success-text">
+                    Мы передали её партнёру.<br>
+                    Менеджер свяжется с вами в течение 30 минут для уточнения деталей.
+                </p>
+
+                <div class="success-info-block">
+                    <div class="info-row">
+                        <span class="info-label">Номер заявки</span>
+                        <span class="info-value" id="successRequestId"></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Контактный номер</span>
+                        <span class="info-value" id="successPhone"></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Должность</span>
+                        <span class="info-value" id="successPosition"></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Адрес</span>
+                        <span class="info-value" id="successAddress"></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Дата и время</span>
+                        <span class="info-value" id="successDateTime"></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Стоимость</span>
+                        <span class="info-value" id="successCost"></span>
+                    </div>
+                    <div class="info-row" id="commentRow" style="display: none;">
+                        <span class="info-label">Комментарий</span>
+                        <span class="info-value" id="successComment" style="text-align: left; max-width: 100%; white-space: pre-wrap;"></span>
+                    </div>
+                </div>
+
+                <div class="success-next">
+                    <strong>Что дальше:</strong> ожидайте звонок, потом мы пришлём состав бригады.
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const RATES = { 'Грузчик': 280, 'Работник торгового зала': 250, 'Сборщик заказов': 250 };
+
+        const COLLECTOR_CITIES = new Set([
+            'Москва', 'Санкт-Петербург',
+            'Балашиха','Химки','Королёв','Мытищи','Люберцы','Подольск','Красногорск','Одинцово',
+            'Электросталь','Коломна','Щёлково','Серпухов','Орехово-Зуево','Ногинск','Жуковский',
+            'Пушкино','Домодедово','Раменское','Реутов','Долгопрудный','Клин','Дубна','Лобня',
+            'Ивантеевка','Фрязино','Протвино','Пущино','Черноголовка','Дзержинский','Котельники',
+            'Видное','Краснознаменск','Лыткарино','Рошаль','Электроугли','Юбилейный','Лосино-Петровский',
+            'Старая Купавна','Верея','Руза','Можайск','Волоколамск','Шаховская','Талдом','Дмитров',
+            'Яхрома','Красная Поляна','Солнечногорск','Зеленоград','Троицк','Щербинка','Московский',
+            'Коммунарка','Внуково','Кокошкино',
+            'Гатчина','Всеволожск','Тихвин','Сосновый Бор','Кириши','Выборг','Тосно','Волхов',
+            'Кингисепп','Сланцы','Новая Ладога','Коммунар','Сертолово','Мурино','Кудрово',
+            'Бокситогорск','Каменногорск','Высоцк','Любань','Кировск','Шлиссельбург','Приозерск',
+            'Светогорск','Подпорожье','Лодейное Поле','Волосово','Луга','Сясьстрой','Ивангород'
+        ]);
+
+        const COLLECTOR_POSITIONS = [{ value: 'Сборщик заказов', label: 'Сборщик заказов' }];
+        const REGION_POSITIONS = [
+            { value: 'Грузчик', label: 'Грузчик' },
+            { value: 'Работник торгового зала', label: 'Работник торгового зала' }
+        ];
+
+        function maskPhone(phone) {
+            if (!phone) return '';
+            const digits = phone.replace(/\D/g, '');
+            if (digits.length < 10) return phone;
+            const lastTwo = digits.slice(-2);
+            return `+7 (***) ***-**-${lastTwo}`;
+        }
+
+        function generateRequestId() {
+            const now = new Date();
+            const yy = String(now.getFullYear()).slice(-2);
+            const mm = String(now.getMonth() + 1).padStart(2, '0');
+            const random = String(Math.floor(Math.random() * 900) + 100);
+            return `${yy}-${mm}${random}-${String(Math.floor(Math.random() * 900) + 100)}`;
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return '';
+            const date = new Date(dateStr);
+            const months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 
+                           'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+            return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
+        }
+
+        function showForm() {
+            document.getElementById('landingScreen').classList.add('hidden-screen');
+            document.getElementById('formScreen').classList.remove('hidden-screen');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function goBack() { 
+            if (confirm('Вернуться назад?')) {
+                if (!document.getElementById('formScreen').classList.contains('hidden-screen')) {
+                    document.getElementById('formScreen').classList.add('hidden-screen');
+                    document.getElementById('landingScreen').classList.remove('hidden-screen');
+                } else {
+                    window.history.back();
+                }
+            }
+        }
+
+        function handleCityChange() {
+            const city = document.getElementById('city').value;
+            const positionGroup = document.getElementById('positionGroup');
+            const positionSelect = document.getElementById('position');
+            
+            if (city) {
+                positionGroup.classList.remove('hidden');
+                const positionsToAdd = COLLECTOR_CITIES.has(city) ? COLLECTOR_POSITIONS : REGION_POSITIONS;
+                positionSelect.innerHTML = '<option value="" disabled selected>Выберите должность</option>';
+                positionsToAdd.forEach(pos => {
+                    const opt = document.createElement('option');
+                    opt.value = pos.value;
+                    opt.textContent = pos.label;
+                    positionSelect.appendChild(opt);
+                });
+                positionSelect.value = '';
+                calculateCost();
+            } else {
+                positionGroup.classList.add('hidden');
+                positionSelect.innerHTML = '<option value="" disabled selected>Выберите должность</option>';
+                calculateCost();
+            }
+        }
+
+        function calculateCost() {
+            const position = document.getElementById('position').value;
+            const ratePerHour = RATES[position] || 0;
+            const hours = parseInt(document.getElementById('hours').value) || 0;
+            const workers = parseInt(document.getElementById('workers').value) || 0;
+            const total = hours * workers * ratePerHour;
+            document.getElementById('costValue').textContent = '≈ ' + total.toLocaleString('ru-RU') + ' ₽';
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            if (!document.getElementById('agree').checked) {
+                alert('Для отправки заявки необходимо согласиться с условиями оказания услуги');
+                return;
+            }
+
+            const phoneRaw = document.getElementById('phone').value;
+            const commentText = document.getElementById('comment').value;
+            const requestId = generateRequestId();
+            const costText = document.getElementById('costValue').textContent;
+            
+            const formData = {
+                id: requestId,
+                city: document.getElementById('city').value,
+                position: document.getElementById('position').value,
+                address: document.getElementById('address').value,
+                date: document.getElementById('date').value,
+                time: document.getElementById('time').value,
+                hours: document.getElementById('hours').value,
+                workers: document.getElementById('workers').value,
+                fullname: document.getElementById('fullname').value,
+                phone: phoneRaw,
+                maskedPhone: maskPhone(phoneRaw),
+                comment: commentText,
+                cost: costText,
+                agree: true
+            };
+
+            console.log('Form submitted:', formData);
+            
+            document.getElementById('successRequestId').textContent = formData.id;
+            document.getElementById('successPhone').textContent = formData.maskedPhone;
+            document.getElementById('successPosition').textContent = formData.position;
+            document.getElementById('successAddress').textContent = formData.address;
+            document.getElementById('successDateTime').textContent = `${formatDate(formData.date)}, ${formData.time}`;
+            document.getElementById('successCost').textContent = formData.cost;
+            
+            const commentRow = document.getElementById('commentRow');
+            const successComment = document.getElementById('successComment');
+            if (formData.comment && formData.comment.trim()) {
+                successComment.textContent = formData.comment;
+                commentRow.style.display = 'flex';
+            } else {
+                commentRow.style.display = 'none';
+            }
+
+            document.getElementById('formScreen').classList.add('hidden-screen');
+            document.getElementById('successScreen').classList.remove('hidden-screen');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showTerms() { 
+            alert('Условия оказания услуги:\n\n1. Исполнитель обязуется оказать услуги в согласованный срок\n2. Оплата производится после выполнения работ\n3. При отмене заказа менее чем за 24 часа взимается штраф 50%'); 
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('positionGroup').classList.add('hidden');
+            calculateCost();
+        });
+    </script>
+</body>
+</html>
