@@ -14,7 +14,6 @@
         }
         .container { max-width: 512px; margin: 0 auto; }
         
-        /* Управление экранами */
         .screen { animation: fadeIn 0.4s ease; }
         .screen.hidden-screen { display: none; }
         @keyframes fadeIn {
@@ -29,19 +28,14 @@
 
         /* --- ЭКРАН 1: ЛЕНДИНГ --- */
         .landing-header { 
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            margin-bottom: 24px; 
-            padding: 20px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 24px; padding: 20px;
             background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
             border-radius: 12px;
         }
         .header-icon { width: 72px; height: 72px; }
-        
         .landing-title { font-size: 26px; font-weight: 800; color: #111827; line-height: 1.2; margin-bottom: 12px; }
         .landing-desc { font-size: 15px; color: #6b7280; line-height: 1.5; margin-bottom: 24px; }
-        
         .steps { display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px; }
         .step { display: flex; align-items: flex-start; gap: 12px; }
         .step-num {
@@ -50,7 +44,6 @@
             font-weight: 700; font-size: 14px; flex-shrink: 0;
         }
         .step-text { font-size: 15px; color: #374151; line-height: 1.5; font-weight: 500; }
-        
         .pricing { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
         .price-card {
             background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px;
@@ -58,7 +51,6 @@
         }
         .price-role { font-size: 15px; color: #4b5563; }
         .price-value { font-size: 16px; font-weight: 700; color: #111827; }
-        
         .cta-button {
             width: 100%; background: #7c3aed; color: white; border: none; padding: 18px;
             border-radius: 14px; font-size: 17px; font-weight: 600; cursor: pointer;
@@ -97,12 +89,13 @@
         }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
         textarea { resize: none; }
-        
-        /* Стили для ссылки в форме */
         .privacy-link { color: #7c3aed; text-decoration: underline; cursor: pointer; }
         .privacy-link:hover { color: #6d28d9; }
         .disclaimer-text { font-size: 13px; color: #6b7280; line-height: 1.5; }
-
+        .address-error { 
+            color: #ef4444; font-size: 13px; margin-top: 6px; 
+            background: #fef2f2; padding: 8px 12px; border-radius: 6px; display: none; 
+        }
         .cost-block {
             background: #f9fafb; border-radius: 8px; padding: 16px;
             display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;
@@ -206,7 +199,7 @@
                         <span class="price-value">от 250 ₽/час</span>
                     </div>
                     <div class="price-card">
-                        <span class="price-role">Сборщик заказов</span>
+                        <span class="price-role">Упаковщик заказов</span>
                         <span class="price-value">от 250 ₽/час</span>
                     </div>
                 </div>
@@ -231,109 +224,20 @@
                 </div>
 
                 <form id="requestForm" onsubmit="handleSubmit(event)">
+                    
+                    <!-- АДРЕС (с логикой определения региона) -->
                     <div class="form-group">
-                        <label for="city">Город</label>
-                        <select id="city" name="city" required onchange="handleCityChange()">
-                            <option value="" disabled selected>Выберите город</option>
-                            <optgroup label="Москва и Санкт-Петербург">
-                                <option value="Москва">Москва</option>
-                                <option value="Санкт-Петербург">Санкт-Петербург</option>
-                            </optgroup>
-                            <optgroup label="Московская область">
-                                <option value="Балашиха">Балашиха</option><option value="Химки">Химки</option>
-                                <option value="Королёв">Королёв</option><option value="Мытищи">Мытищи</option>
-                                <option value="Люберцы">Люберцы</option><option value="Подольск">Подольск</option>
-                                <option value="Красногорск">Красногорск</option><option value="Одинцово">Одинцово</option>
-                                <option value="Электросталь">Электросталь</option><option value="Коломна">Коломна</option>
-                                <option value="Щёлково">Щёлково</option><option value="Серпухов">Серпухов</option>
-                                <option value="Орехово-Зуево">Орехово-Зуево</option><option value="Ногинск">Ногинск</option>
-                                <option value="Жуковский">Жуковский</option><option value="Пушкино">Пушкино</option>
-                                <option value="Домодедово">Домодедово</option><option value="Раменское">Раменское</option>
-                                <option value="Реутов">Реутов</option><option value="Долгопрудный">Долгопрудный</option>
-                                <option value="Клин">Клин</option><option value="Дубна">Дубна</option>
-                                <option value="Лобня">Лобня</option><option value="Ивантеевка">Ивантеевка</option>
-                                <option value="Фрязино">Фрязино</option><option value="Протвино">Протвино</option>
-                                <option value="Пущино">Пущино</option><option value="Черноголовка">Черноголовка</option>
-                                <option value="Дзержинский">Дзержинский</option><option value="Котельники">Котельники</option>
-                                <option value="Видное">Видное</option><option value="Краснознаменск">Краснознаменск</option>
-                                <option value="Лыткарино">Лыткарино</option><option value="Рошаль">Рошаль</option>
-                                <option value="Электроугли">Электроугли</option><option value="Юбилейный">Юбилейный</option>
-                                <option value="Лосино-Петровский">Лосино-Петровский</option><option value="Старая Купавна">Старая Купавна</option>
-                                <option value="Верея">Верея</option><option value="Руза">Руза</option>
-                                <option value="Можайск">Можайск</option><option value="Волоколамск">Волоколамск</option>
-                                <option value="Шаховская">Шаховская</option><option value="Талдом">Талдом</option>
-                                <option value="Дмитров">Дмитров</option><option value="Яхрома">Яхрома</option>
-                                <option value="Красная Поляна">Красная Поляна</option><option value="Солнечногорск">Солнечногорск</option>
-                                <option value="Зеленоград">Зеленоград</option><option value="Троицк">Троицк</option>
-                                <option value="Щербинка">Щербинка</option><option value="Московский">Московский</option>
-                                <option value="Коммунарка">Коммунарка</option><option value="Внуково">Внуково</option>
-                                <option value="Кокошкино">Кокошкино</option>
-                            </optgroup>
-                            <optgroup label="Ленинградская область">
-                                <option value="Гатчина">Гатчина</option><option value="Всеволожск">Всеволожск</option>
-                                <option value="Тихвин">Тихвин</option><option value="Сосновый Бор">Сосновый Бор</option>
-                                <option value="Кириши">Кириши</option><option value="Выборг">Выборг</option>
-                                <option value="Тосно">Тосно</option><option value="Волхов">Волхов</option>
-                                <option value="Кингисепп">Кингисепп</option><option value="Сланцы">Сланцы</option>
-                                <option value="Новая Ладога">Новая Ладога</option><option value="Коммунар">Коммунар</option>
-                                <option value="Сертолово">Сертолово</option><option value="Мурино">Мурино</option>
-                                <option value="Кудрово">Кудрово</option><option value="Бокситогорск">Бокситогорск</option>
-                                <option value="Каменногорск">Каменногорск</option><option value="Высоцк">Высоцк</option>
-                                <option value="Любань">Любань</option><option value="Кировск">Кировск</option>
-                                <option value="Шлиссельбург">Шлиссельбург</option><option value="Приозерск">Приозерск</option>
-                                <option value="Светогорск">Светогорск</option><option value="Подпорожье">Подпорожье</option>
-                                <option value="Лодейное Поле">Лодейное Поле</option><option value="Волосово">Волосово</option>
-                                <option value="Луга">Луга</option><option value="Сясьстрой">Сясьстрой</option>
-                                <option value="Ивангород">Ивангород</option>
-                            </optgroup>
-                            <optgroup label="Другие регионы РФ">
-                                <option value="Новосибирск">Новосибирск</option><option value="Екатеринбург">Екатеринбург</option>
-                                <option value="Казань">Казань</option><option value="Нижний Новгород">Нижний Новгород</option>
-                                <option value="Челябинск">Челябинск</option><option value="Омск">Омск</option>
-                                <option value="Самара">Самара</option><option value="Ростов-на-Дону">Ростов-на-Дону</option>
-                                <option value="Уфа">Уфа</option><option value="Красноярск">Красноярск</option>
-                                <option value="Воронеж">Воронеж</option><option value="Пермь">Пермь</option>
-                                <option value="Волгоград">Волгоград</option><option value="Краснодар">Краснодар</option>
-                                <option value="Саратов">Саратов</option><option value="Тюмень">Тюмень</option>
-                                <option value="Тольятти">Тольятти</option><option value="Ижевск">Ижевск</option>
-                                <option value="Барнаул">Барнаул</option><option value="Ульяновск">Ульяновск</option>
-                                <option value="Иркутск">Иркутск</option><option value="Хабаровск">Хабаровск</option>
-                                <option value="Ярославль">Ярославль</option><option value="Владивосток">Владивосток</option>
-                                <option value="Махачкала">Махачкала</option><option value="Томск">Томск</option>
-                                <option value="Оренбург">Оренбург</option><option value="Кемерово">Кемерово</option>
-                                <option value="Новокузнецк">Новокузнецк</option><option value="Рязань">Рязань</option>
-                                <option value="Астрахань">Астрахань</option><option value="Пенза">Пенза</option>
-                                <option value="Липецк">Липецк</option><option value="Киров">Киров</option>
-                                <option value="Чебоксары">Чебоксары</option><option value="Тула">Тула</option>
-                                <option value="Калининград">Калининград</option><option value="Курск">Курск</option>
-                                <option value="Севастополь">Севастополь</option><option value="Сочи">Сочи</option>
-                                <option value="Ставрополь">Ставрополь</option><option value="Белгород">Белгород</option>
-                                <option value="Владимир">Владимир</option><option value="Архангельск">Архангельск</option>
-                                <option value="Мурманск">Мурманск</option><option value="Сургут">Сургут</option>
-                                <option value="Вологда">Вологда</option><option value="Саранск">Саранск</option>
-                                <option value="Смоленск">Смоленск</option><option value="Курган">Курган</option>
-                                <option value="Чита">Чита</option><option value="Орёл">Орёл</option>
-                                <option value="Якутск">Якутск</option><option value="Петрозаводск">Петрозаводск</option>
-                                <option value="Грозный">Грозный</option><option value="Йошкар-Ола">Йошкар-Ола</option>
-                                <option value="Тамбов">Тамбов</option><option value="Нижневартовск">Нижневартовск</option>
-                                <option value="Новороссийск">Новороссийск</option><option value="Брянск">Брянск</option>
-                                <option value="Иваново">Иваново</option><option value="Стерлитамак">Стерлитамак</option>
-                                <option value="Калуга">Калуга</option><option value="Нижнекамск">Нижнекамск</option>
-                                <option value="Ангарск">Ангарск</option>
-                            </optgroup>
-                        </select>
+                        <label for="address">Адрес</label>
+                        <input type="text" id="address" name="address" placeholder="г. Москва, ул. Примерная, д. 1" required oninput="handleAddressInput()">
+                        <div id="addressError" class="address-error"></div>
                     </div>
 
+                    <!-- ДОЛЖНОСТЬ (динамическое) -->
                     <div class="form-group hidden" id="positionGroup">
                         <label for="position">Должность</label>
                         <select id="position" name="position" required onchange="calculateCost()">
                             <option value="" disabled selected>Выберите должность</option>
                         </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="address">Адрес</label>
-                        <input type="text" id="address" name="address" placeholder="Введите адрес" required>
                     </div>
 
                     <div class="grid-2">
@@ -362,7 +266,6 @@
                         <textarea id="comment" name="comment" rows="3" placeholder="Введите комментарий..."></textarea>
                     </div>
 
-                    <!-- ОБНОВЛЁННЫЙ БЛОК СОГЛАСИЯ -->
                     <div class="form-group" style="margin-bottom: 24px;">
                         <p class="disclaimer-text">
                             Оставляя заявку, вы соглашаетесь на <a href="#" class="privacy-link" onclick="showTerms()">обработку персональных данных</a>
@@ -434,30 +337,69 @@
     </div>
 
     <script>
-        const RATES = { 'Грузчик': 280, 'Работник торгового зала': 250, 'Сборщик заказов': 250 };
+        // Тарифы
+        const RATES = { 'Грузчик': 280, 'Работник торгового зала': 250, 'Упаковщик заказов': 250 };
 
-        const COLLECTOR_CITIES = new Set([
-            'Москва', 'Санкт-Петербург',
-            'Балашиха','Химки','Королёв','Мытищи','Люберцы','Подольск','Красногорск','Одинцово',
-            'Электросталь','Коломна','Щёлково','Серпухов','Орехово-Зуево','Ногинск','Жуковский',
-            'Пушкино','Домодедово','Раменское','Реутов','Долгопрудный','Клин','Дубна','Лобня',
-            'Ивантеевка','Фрязино','Протвино','Пущино','Черноголовка','Дзержинский','Котельники',
-            'Видное','Краснознаменск','Лыткарино','Рошаль','Электроугли','Юбилейный','Лосино-Петровский',
-            'Старая Купавна','Верея','Руза','Можайск','Волоколамск','Шаховская','Талдом','Дмитров',
-            'Яхрома','Красная Поляна','Солнечногорск','Зеленоград','Троицк','Щербинка','Московский',
-            'Коммунарка','Внуково','Кокошкино',
-            'Гатчина','Всеволожск','Тихвин','Сосновый Бор','Кириши','Выборг','Тосно','Волхов',
-            'Кингисепп','Сланцы','Новая Ладога','Коммунар','Сертолово','Мурино','Кудрово',
-            'Бокситогорск','Каменногорск','Высоцк','Любань','Кировск','Шлиссельбург','Приозерск',
-            'Светогорск','Подпорожье','Лодейное Поле','Волосово','Луга','Сясьстрой','Ивангород'
-        ]);
+        // Обработка ввода адреса
+        function handleAddressInput() {
+            const addr = document.getElementById('address').value.toLowerCase().trim();
+            const posGroup = document.getElementById('positionGroup');
+            const posSelect = document.getElementById('position');
+            const errDiv = document.getElementById('addressError');
 
-        const COLLECTOR_POSITIONS = [{ value: 'Сборщик заказов', label: 'Сборщик заказов' }];
-        const REGION_POSITIONS = [
-            { value: 'Грузчик', label: 'Грузчик' },
-            { value: 'Работник торгового зала', label: 'Работник торгового зала' }
-        ];
+            // Сброс состояния
+            errDiv.style.display = 'none';
+            posGroup.classList.remove('hidden');
+            posSelect.innerHTML = '<option value="" disabled selected>Выберите должность</option>';
+            posSelect.value = '';
 
+            if (!addr) {
+                posGroup.classList.add('hidden');
+                calculateCost();
+                return;
+            }
+
+            // 1. Проверка на недоступные регионы
+            if (addr.includes('санкт-петербург') || addr.includes('спб') || addr.includes('петербург')) {
+                errDiv.textContent = 'На данный момент нет возможности найти сотрудников в Санкт-Петербурге.';
+                errDiv.style.display = 'block';
+                posGroup.classList.add('hidden');
+                calculateCost();
+                return;
+            }
+            if (addr.includes('московская область') || addr.includes('подмосковье') || addr.includes('мо ')) {
+                errDiv.textContent = 'На данный момент нет возможности найти сотрудников в Московской области.';
+                errDiv.style.display = 'block';
+                posGroup.classList.add('hidden');
+                calculateCost();
+                return;
+            }
+
+            // 2. Москва (исключая МО)
+            if (addr.includes('москва')) {
+                const opt = document.createElement('option');
+                opt.value = 'Упаковщик заказов';
+                opt.textContent = 'Упаковщик заказов';
+                posSelect.appendChild(opt);
+                calculateCost();
+                return;
+            }
+
+            // 3. Остальные города
+            const defaultPositions = [
+                { v: 'Грузчик', t: 'Грузчик' },
+                { v: 'Работник торгового зала', t: 'Работник торгового зала' }
+            ];
+            defaultPositions.forEach(p => {
+                const opt = document.createElement('option');
+                opt.value = p.v;
+                opt.textContent = p.t;
+                posSelect.appendChild(opt);
+            });
+            calculateCost();
+        }
+
+        // Маскировка телефона
         function maskPhone(phone) {
             if (!phone) return '';
             const digits = phone.replace(/\D/g, '');
@@ -466,6 +408,7 @@
             return `+7 (***) ***-**-${lastTwo}`;
         }
 
+        // Генерация ID заявки
         function generateRequestId() {
             const now = new Date();
             const yy = String(now.getFullYear()).slice(-2);
@@ -474,6 +417,7 @@
             return `${yy}-${mm}${random}-${String(Math.floor(Math.random() * 900) + 100)}`;
         }
 
+        // Форматирование даты
         function formatDate(dateStr) {
             if (!dateStr) return '';
             const date = new Date(dateStr);
@@ -482,6 +426,7 @@
             return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
         }
 
+        // Навигация
         function showForm() {
             document.getElementById('landingScreen').classList.add('hidden-screen');
             document.getElementById('formScreen').classList.remove('hidden-screen');
@@ -499,30 +444,7 @@
             }
         }
 
-        function handleCityChange() {
-            const city = document.getElementById('city').value;
-            const positionGroup = document.getElementById('positionGroup');
-            const positionSelect = document.getElementById('position');
-            
-            if (city) {
-                positionGroup.classList.remove('hidden');
-                const positionsToAdd = COLLECTOR_CITIES.has(city) ? COLLECTOR_POSITIONS : REGION_POSITIONS;
-                positionSelect.innerHTML = '<option value="" disabled selected>Выберите должность</option>';
-                positionsToAdd.forEach(pos => {
-                    const opt = document.createElement('option');
-                    opt.value = pos.value;
-                    opt.textContent = pos.label;
-                    positionSelect.appendChild(opt);
-                });
-                positionSelect.value = '';
-                calculateCost();
-            } else {
-                positionGroup.classList.add('hidden');
-                positionSelect.innerHTML = '<option value="" disabled selected>Выберите должность</option>';
-                calculateCost();
-            }
-        }
-
+        // Расчёт стоимости
         function calculateCost() {
             const position = document.getElementById('position').value;
             const ratePerHour = RATES[position] || 0;
@@ -532,11 +454,10 @@
             document.getElementById('costValue').textContent = '≈ ' + total.toLocaleString('ru-RU') + ' ₽';
         }
 
+        // Отправка формы
         function handleSubmit(event) {
             event.preventDefault();
             
-            // Чекбокс удалён, проверка убрана. Заявка отправляется по нажатию кнопки.
-
             const phoneRaw = document.getElementById('phone').value;
             const commentText = document.getElementById('comment').value;
             const requestId = generateRequestId();
@@ -544,25 +465,23 @@
             
             const formData = {
                 id: requestId,
-                city: document.getElementById('city').value,
-                position: document.getElementById('position').value,
                 address: document.getElementById('address').value,
+                position: document.getElementById('position').value,
                 date: document.getElementById('date').value,
                 time: document.getElementById('time').value,
                 hours: document.getElementById('hours').value,
                 workers: document.getElementById('workers').value,
                 fullname: document.getElementById('fullname').value,
                 phone: phoneRaw,
-                maskedPhone: maskPhone(phoneRaw),
                 comment: commentText,
-                cost: costText,
-                agree: true // Подразумевается согласие
+                cost: costText
             };
 
             console.log('Form submitted:', formData);
             
+            // Заполнение экрана успеха
             document.getElementById('successRequestId').textContent = formData.id;
-            document.getElementById('successPhone').textContent = formData.maskedPhone;
+            document.getElementById('successPhone').textContent = maskPhone(phoneRaw);
             document.getElementById('successPosition').textContent = formData.position;
             document.getElementById('successAddress').textContent = formData.address;
             document.getElementById('successDateTime').textContent = `${formatDate(formData.date)}, ${formData.time}`;
