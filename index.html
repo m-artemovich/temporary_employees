@@ -60,10 +60,10 @@
         .cta-button:active { transform: translateY(0); }
 
         /* --- ЭКРАН 2: ФОРМА --- */
-        .header { margin-bottom: 24px; display: flex; align-items: center; }
+        .header { margin-bottom: 24px; }
         .back-button {
             background: none; border: none; color: #4b5563; cursor: pointer;
-            padding: 0; display: flex; align-items: center; margin-right: 12px;
+            margin-bottom: 16px; padding: 0; display: flex; align-items: center;
         }
         .back-button:hover { color: #111827; }
         .back-button svg { width: 24px; height: 24px; }
@@ -89,19 +89,27 @@
         }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
         textarea { resize: none; }
-        .privacy-link { color: #7c3aed; text-decoration: underline; cursor: pointer; }
-        .privacy-link:hover { color: #6d28d9; }
-        .disclaimer-text { font-size: 13px; color: #6b7280; line-height: 1.5; }
-        .address-error { 
+        
+        .city-error {
             color: #ef4444; font-size: 13px; margin-top: 6px; 
             background: #fef2f2; padding: 8px 12px; border-radius: 6px; display: none; 
         }
+
+        .checkbox-wrapper { display: flex; align-items: flex-start; margin-bottom: 16px; gap: 8px; }
+        .checkbox-wrapper input[type="checkbox"] {
+            width: 20px; height: 20px; margin-top: 2px; accent-color: #7c3aed; cursor: pointer; flex-shrink: 0;
+        }
+        .checkbox-label { font-size: 14px; color: #374151; line-height: 1.4; cursor: pointer; }
+
         .cost-block {
             background: #f9fafb; border-radius: 8px; padding: 16px;
-            display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;
+            display: flex; flex-direction: column; gap: 4px; margin-bottom: 16px;
         }
-        .cost-label { color: #4b5563; font-size: 16px; }
+        .cost-header { display: flex; justify-content: space-between; align-items: center; }
+        .cost-label { color: #4b5563; font-size: 16px; font-weight: 500; }
         .cost-value { font-size: 18px; font-weight: 700; color: #111827; }
+        .cost-subtitle { font-size: 12px; color: #6b7280; }
+
         .submit-button {
             width: 100%; background: #7c3aed; color: white; border: none; padding: 16px;
             border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer;
@@ -132,11 +140,6 @@
         .info-row:last-child { border-bottom: none; }
         .info-label { font-size: 14px; color: #6b7280; font-weight: 500; }
         .info-value { font-size: 14px; color: #111827; font-weight: 600; text-align: right; max-width: 60%; word-break: break-word; }
-        .success-next {
-            font-size: 15px; color: #374151; line-height: 1.6; margin-bottom: 24px;
-            padding: 16px; background: #f9fafb; border-radius: 8px;
-        }
-        .success-next strong { color: #111827; }
 
         @media (max-width: 640px) {
             body { padding: 16px 12px; }
@@ -171,36 +174,36 @@
                     </svg>
                 </div>
 
-                <h1 class="landing-title">Временный персонал —<br>просто как вызвать такси</h1>
-                <p class="landing-desc">Грузчики и работники торгового зала для разовых задач и пиков. Без поиска в чатах и оплаты налом.</p>
+                <h1 class="landing-title">Найдём персонал<br>для разовых задач и на сезон</h1>
+                <p class="landing-desc">Поиск сотрудников, переговоры и подготовка закрывающих документов — всё это на нас. Вам остаётся только подать заявку и принять работу</p>
 
                 <div class="steps">
                     <div class="step">
                         <div class="step-num">1</div>
-                        <div class="step-text">Оставьте заявку — адрес, дата, сколько людей</div>
+                        <div class="step-text">Вы оставляете заявку — указываете адрес, дату, количество сотрудников</div>
                     </div>
                     <div class="step">
                         <div class="step-num">2</div>
-                        <div class="step-text">Мы найдём бригаду — подтвердим состав за 2 часа</div>
+                        <div class="step-text">Мы находим бригаду — подтвердим её состав в течение 2 часов после заказа</div>
                     </div>
                     <div class="step">
                         <div class="step-num">3</div>
-                        <div class="step-text">Оплата с расчёта — закрывающие документы сформируем автоматически</div>
+                        <div class="step-text">Вы оплачиваете с расчётного счёта — закрывающие документы формируем автоматически</div>
                     </div>
                 </div>
 
                 <div class="pricing">
                     <div class="price-card">
                         <span class="price-role">Грузчик</span>
-                        <span class="price-value">от 280 ₽/час</span>
+                        <span class="price-value">от 280 ₽ в час</span>
                     </div>
                     <div class="price-card">
                         <span class="price-role">Работник торгового зала</span>
-                        <span class="price-value">от 250 ₽/час</span>
+                        <span class="price-value">от 280 ₽ в час</span>
                     </div>
                     <div class="price-card">
                         <span class="price-role">Упаковщик заказов</span>
-                        <span class="price-value">от 250 ₽/час</span>
+                        <span class="price-value">от 777 ₽ в час</span>
                     </div>
                 </div>
 
@@ -217,64 +220,119 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                         </svg>
                     </button>
-                    <div>
-                        <h1 class="title">Новая заявка</h1>
-                        <p class="subtitle">Заполнение займёт 1 минуту</p>
-                    </div>
+                    <h1 class="title">Заявка на поиск временного персонала</h1>
+                    <p class="subtitle">Заполнение займёт 1 минуту</p>
                 </div>
 
                 <form id="requestForm" onsubmit="handleSubmit(event)">
                     
-                    <!-- АДРЕС (с логикой определения региона) -->
                     <div class="form-group">
-                        <label for="address">Адрес</label>
-                        <input type="text" id="address" name="address" placeholder="г. Москва, ул. Примерная, д. 1" required oninput="handleAddressInput()">
-                        <div id="addressError" class="address-error"></div>
+                        <label for="city">Город</label>
+                        <select id="city" name="city" required onchange="handleCityChange()">
+                            <option value="" disabled selected>Выберите город</option>
+                            
+                            <optgroup label="Москва">
+                                <option value="Москва">Москва</option>
+                            </optgroup>
+
+                            <optgroup label="Московская область">
+                                <option value="Балашиха">Балашиха</option><option value="Химки">Химки</option>
+                                <option value="Королёв">Королёв</option><option value="Мытищи">Мытищи</option>
+                                <option value="Люберцы">Люберцы</option><option value="Подольск">Подольск</option>
+                                <option value="Красногорск">Красногорск</option><option value="Одинцово">Одинцово</option>
+                                <option value="Электросталь">Электросталь</option><option value="Коломна">Коломна</option>
+                                <option value="Щёлково">Щёлково</option><option value="Серпухов">Серпухов</option>
+                                <option value="Домодедово">Домодедово</option><option value="Реутов">Реутов</option>
+                                <option value="Долгопрудный">Долгопрудный</option><option value="Зеленоград">Зеленоград</option>
+                                <option value="Видное">Видное</option><option value="Котельники">Котельники</option>
+                            </optgroup>
+
+                            <optgroup label="Санкт-Петербург">
+                                <option value="Санкт-Петербург">Санкт-Петербург</option>
+                            </optgroup>
+
+                            <optgroup label="Ленинградская область">
+                                <option value="Гатчина">Гатчина</option><option value="Всеволожск">Всеволожск</option>
+                                <option value="Выборг">Выборг</option><option value="Тихвин">Тихвин</option>
+                                <option value="Сосновый Бор">Сосновый Бор</option><option value="Кириши">Кириши</option>
+                                <option value="Мурино">Мурино</option><option value="Кудрово">Кудрово</option>
+                                <option value="Сертолово">Сертолово</option><option value="Тосно">Тосно</option>
+                            </optgroup>
+
+                            <optgroup label="Другие регионы РФ">
+                                <option value="Новосибирск">Новосибирск</option><option value="Екатеринбург">Екатеринбург</option>
+                                <option value="Казань">Казань</option><option value="Нижний Новгород">Нижний Новгород</option>
+                                <option value="Челябинск">Челябинск</option><option value="Омск">Омск</option>
+                                <option value="Самара">Самара</option><option value="Ростов-на-Дону">Ростов-на-Дону</option>
+                                <option value="Уфа">Уфа</option><option value="Красноярск">Красноярск</option>
+                                <option value="Воронеж">Воронеж</option><option value="Пермь">Пермь</option>
+                                <option value="Волгоград">Волгоград</option><option value="Краснодар">Краснодар</option>
+                            </optgroup>
+                        </select>
+                        <div id="cityError" class="city-error"></div>
                     </div>
 
-                    <!-- ДОЛЖНОСТЬ (динамическое) -->
                     <div class="form-group hidden" id="positionGroup">
-                        <label for="position">Должность</label>
+                        <label for="position">Кого ищите</label>
                         <select id="position" name="position" required onchange="calculateCost()">
                             <option value="" disabled selected>Выберите должность</option>
                         </select>
                     </div>
 
-                    <div class="grid-2">
-                        <div class="form-group"><label for="date">Дата</label><input type="date" id="date" name="date" required></div>
-                        <div class="form-group"><label for="time">Время начала</label><input type="time" id="time" name="time" required></div>
-                    </div>
-
-                    <div class="grid-2">
-                        <div class="form-group"><label for="hours">Часов</label><input type="number" id="hours" name="hours" min="1" required onchange="calculateCost()"></div>
-                        <div class="form-group"><label for="workers">Исполнителей</label><input type="number" id="workers" name="workers" min="1" required onchange="calculateCost()"></div>
+                    <div class="form-group">
+                        <label for="address">Куда подойти работнику</label>
+                        <input type="text" id="address" name="address" placeholder="Введите адрес" required>
                     </div>
 
                     <div class="grid-2">
                         <div class="form-group">
-                            <label for="fullname">ФИО</label>
-                            <input type="text" id="fullname" name="fullname" placeholder="Иванов Иван Иванович" autocomplete="name" required>
+                            <label for="date">Дата начала работы</label>
+                            <input type="date" id="date" name="date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="time">Время начала работы</label>
+                            <input type="time" id="time" name="time" required>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="hours">Длительность работы в часах</label>
+                            <input type="number" id="hours" name="hours" min="1" required onchange="calculateCost()">
+                        </div>
+                        <div class="form-group">
+                            <label for="workers">Сколько нужно работников</label>
+                            <input type="number" id="workers" name="workers" min="1" required onchange="calculateCost()">
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="fullname">ФИО ответственного</label>
+                            <input type="text" id="fullname" name="fullname" placeholder="ФИО контактного лица" autocomplete="name" required>
                         </div>
                         <div class="form-group">
                             <label for="phone">Номер телефона</label>
-                            <input type="tel" id="phone" name="phone" placeholder="+7 (999) 123-45-67" inputmode="tel" autocomplete="tel" required>
+                            <input type="tel" id="phone" name="phone" placeholder="+7(999) 123-45-67" inputmode="tel" autocomplete="tel" required>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="comment">Комментарий (куда подойти, пропуск)</label>
-                        <textarea id="comment" name="comment" rows="3" placeholder="Введите комментарий..."></textarea>
+                        <label for="comment">Комментарий</label>
+                        <textarea id="comment" name="comment" rows="3" placeholder="Например, как пройти, какие документы взять для пропуска"></textarea>
                     </div>
 
-                    <div class="form-group" style="margin-bottom: 24px;">
-                        <p class="disclaimer-text">
-                            Оставляя заявку, вы соглашаетесь на <a href="#" class="privacy-link" onclick="showTerms()">обработку персональных данных</a>
-                        </p>
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" id="agree" name="agree">
+                        <label for="agree" class="checkbox-label">Соглашаюсь на передачу персональных данных</label>
                     </div>
 
                     <div class="cost-block">
-                        <span class="cost-label">Стоимость по тарифу</span>
-                        <span class="cost-value" id="costValue">≈ 0 ₽</span>
+                        <div class="cost-header">
+                            <span class="cost-label">Предварительная стоимость</span>
+                            <span class="cost-value" id="costValue">≈ 0 ₽</span>
+                        </div>
+                        <span class="cost-subtitle">Точную назовём, когда позвоним для уточнения деталей</span>
                     </div>
 
                     <button type="submit" class="submit-button">Отправить заявку</button>
@@ -282,7 +340,7 @@
             </div>
         </div>
 
-        <!-- ЭКРАН 3: Заявка принята -->
+        <!-- ЭКРАН 3: Заявка принята (ОБНОВЛЁННЫЙ) -->
         <div id="successScreen" class="screen hidden-screen success-screen">
             <div class="form-card">
                 <div class="success-icon">
@@ -293,8 +351,7 @@
 
                 <h1 class="success-title">Заявка принята</h1>
                 <p class="success-text">
-                    Мы передали её партнёру.<br>
-                    Менеджер свяжется с вами в течение 30 минут для уточнения деталей.
+                    Менеджер позвонит в течение 30 минут — уточнит детали, назовёт стоимость работ и расскажет о дальнейших шагах
                 </p>
 
                 <div class="success-info-block">
@@ -307,7 +364,7 @@
                         <span class="info-value" id="successPhone"></span>
                     </div>
                     <div class="info-row">
-                        <span class="info-label">Должность</span>
+                        <span class="info-label">Кого ищем</span>
                         <span class="info-value" id="successPosition"></span>
                     </div>
                     <div class="info-row">
@@ -319,7 +376,7 @@
                         <span class="info-value" id="successDateTime"></span>
                     </div>
                     <div class="info-row">
-                        <span class="info-label">Стоимость</span>
+                        <span class="info-label">Предварительная стоимость</span>
                         <span class="info-value" id="successCost"></span>
                     </div>
                     <div class="info-row" id="commentRow" style="display: none;">
@@ -327,56 +384,40 @@
                         <span class="info-value" id="successComment" style="text-align: left; max-width: 100%; white-space: pre-wrap;"></span>
                     </div>
                 </div>
-
-                <div class="success-next">
-                    <strong>Что дальше:</strong> ожидайте звонок, потом мы пришлём состав бригады.
-                </div>
             </div>
         </div>
 
     </div>
 
     <script>
-        // Тарифы
-        const RATES = { 'Грузчик': 280, 'Работник торгового зала': 250, 'Упаковщик заказов': 250 };
+        const RATES = { 'Грузчик': 280, 'Работник торгового зала': 280, 'Упаковщик заказов': 777 };
 
-        // Обработка ввода адреса
-        function handleAddressInput() {
-            const addr = document.getElementById('address').value.toLowerCase().trim();
+        function handleCityChange() {
+            const city = document.getElementById('city').value;
             const posGroup = document.getElementById('positionGroup');
             const posSelect = document.getElementById('position');
-            const errDiv = document.getElementById('addressError');
+            const errDiv = document.getElementById('cityError');
 
-            // Сброс состояния
             errDiv.style.display = 'none';
             posGroup.classList.remove('hidden');
             posSelect.innerHTML = '<option value="" disabled selected>Выберите должность</option>';
             posSelect.value = '';
 
-            if (!addr) {
+            if (!city) {
                 posGroup.classList.add('hidden');
                 calculateCost();
                 return;
             }
 
-            // 1. Проверка на недоступные регионы
-            if (addr.includes('санкт-петербург') || addr.includes('спб') || addr.includes('петербург')) {
+            if (city === 'Санкт-Петербург') {
                 errDiv.textContent = 'На данный момент нет возможности найти сотрудников в Санкт-Петербурге.';
                 errDiv.style.display = 'block';
                 posGroup.classList.add('hidden');
                 calculateCost();
                 return;
             }
-            if (addr.includes('московская область') || addr.includes('подмосковье') || addr.includes('мо ')) {
-                errDiv.textContent = 'На данный момент нет возможности найти сотрудников в Московской области.';
-                errDiv.style.display = 'block';
-                posGroup.classList.add('hidden');
-                calculateCost();
-                return;
-            }
 
-            // 2. Москва (исключая МО)
-            if (addr.includes('москва')) {
+            if (city === 'Москва') {
                 const opt = document.createElement('option');
                 opt.value = 'Упаковщик заказов';
                 opt.textContent = 'Упаковщик заказов';
@@ -385,7 +426,6 @@
                 return;
             }
 
-            // 3. Остальные города
             const defaultPositions = [
                 { v: 'Грузчик', t: 'Грузчик' },
                 { v: 'Работник торгового зала', t: 'Работник торгового зала' }
@@ -399,7 +439,6 @@
             calculateCost();
         }
 
-        // Маскировка телефона
         function maskPhone(phone) {
             if (!phone) return '';
             const digits = phone.replace(/\D/g, '');
@@ -408,7 +447,6 @@
             return `+7 (***) ***-**-${lastTwo}`;
         }
 
-        // Генерация ID заявки
         function generateRequestId() {
             const now = new Date();
             const yy = String(now.getFullYear()).slice(-2);
@@ -417,7 +455,6 @@
             return `${yy}-${mm}${random}-${String(Math.floor(Math.random() * 900) + 100)}`;
         }
 
-        // Форматирование даты
         function formatDate(dateStr) {
             if (!dateStr) return '';
             const date = new Date(dateStr);
@@ -426,7 +463,6 @@
             return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
         }
 
-        // Навигация
         function showForm() {
             document.getElementById('landingScreen').classList.add('hidden-screen');
             document.getElementById('formScreen').classList.remove('hidden-screen');
@@ -444,7 +480,6 @@
             }
         }
 
-        // Расчёт стоимости
         function calculateCost() {
             const position = document.getElementById('position').value;
             const ratePerHour = RATES[position] || 0;
@@ -454,10 +489,14 @@
             document.getElementById('costValue').textContent = '≈ ' + total.toLocaleString('ru-RU') + ' ₽';
         }
 
-        // Отправка формы
         function handleSubmit(event) {
             event.preventDefault();
             
+            if (!document.getElementById('agree').checked) {
+                alert('Для отправки заявки необходимо согласиться на передачу персональных данных');
+                return;
+            }
+
             const phoneRaw = document.getElementById('phone').value;
             const commentText = document.getElementById('comment').value;
             const requestId = generateRequestId();
@@ -465,6 +504,7 @@
             
             const formData = {
                 id: requestId,
+                city: document.getElementById('city').value,
                 address: document.getElementById('address').value,
                 position: document.getElementById('position').value,
                 date: document.getElementById('date').value,
@@ -483,7 +523,8 @@
             document.getElementById('successRequestId').textContent = formData.id;
             document.getElementById('successPhone').textContent = maskPhone(phoneRaw);
             document.getElementById('successPosition').textContent = formData.position;
-            document.getElementById('successAddress').textContent = formData.address;
+            // Объединяем город и адрес в одно поле
+            document.getElementById('successAddress').textContent = formData.city + ', ' + formData.address;
             document.getElementById('successDateTime').textContent = `${formatDate(formData.date)}, ${formData.time}`;
             document.getElementById('successCost').textContent = formData.cost;
             
@@ -499,10 +540,6 @@
             document.getElementById('formScreen').classList.add('hidden-screen');
             document.getElementById('successScreen').classList.remove('hidden-screen');
             window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function showTerms() { 
-            alert('Политика обработки персональных данных.\n\nНажимая кнопку "Отправить заявку", вы даёте согласие на обработку предоставленных персональных данных.'); 
         }
         
         document.addEventListener('DOMContentLoaded', () => {
