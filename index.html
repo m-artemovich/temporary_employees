@@ -340,7 +340,7 @@
             </div>
         </div>
 
-        <!-- ЭКРАН 3: Заявка принята (ОБНОВЛЁННЫЙ) -->
+        <!-- ЭКРАН 3: Заявка принята -->
         <div id="successScreen" class="screen hidden-screen success-screen">
             <div class="form-card">
                 <div class="success-icon">
@@ -358,6 +358,10 @@
                     <div class="info-row">
                         <span class="info-label">Номер заявки</span>
                         <span class="info-value" id="successRequestId"></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Контактное лицо</span>
+                        <span class="info-value" id="successContact"></span>
                     </div>
                     <div class="info-row">
                         <span class="info-label">Контактный номер</span>
@@ -521,9 +525,9 @@
             
             // Заполнение экрана успеха
             document.getElementById('successRequestId').textContent = formData.id;
+            document.getElementById('successContact').textContent = formData.fullname; // <-- ДОБАВЛЕНО
             document.getElementById('successPhone').textContent = maskPhone(phoneRaw);
             document.getElementById('successPosition').textContent = formData.position;
-            // Объединяем город и адрес в одно поле
             document.getElementById('successAddress').textContent = formData.city + ', ' + formData.address;
             document.getElementById('successDateTime').textContent = `${formatDate(formData.date)}, ${formData.time}`;
             document.getElementById('successCost').textContent = formData.cost;
